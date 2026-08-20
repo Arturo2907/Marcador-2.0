@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar codigo del repositorio
+      - name: Descargar codigo
         uses: actions/checkout@v4
 
-      - name: Instalar Java JDK 17
+      - name: Configurar Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '17'
 
-      - name: Instalar Flutter SDK
+      - name: Configurar Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
@@ -29,15 +29,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Instalar dependencias
+      - name: Instalar Flet CLI
         run: |
           python -m pip install --upgrade pip
           pip install flet
 
-      - name: Compilar archivo APK
-        run: flet build apk
+      - name: Compilar APK
+        run: |
+          flet build apk --verbose
 
-      - name: Guardar APK generado
+      - name: Subir APK generado
         uses: actions/upload-artifact@v4
         with:
           name: App-Marcador-Android
